@@ -1,0 +1,5 @@
+{
+  "paths": {
+    "moment": "../Library/moment/moment.min.js"
+  }
+}

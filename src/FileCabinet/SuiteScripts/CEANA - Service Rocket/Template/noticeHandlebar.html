@@ -1,0 +1,66 @@
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"/>
+    <title>Handle bar test</title>
+    <style type="text/css">
+        .notice {
+            padding: 15px;
+            background-color: #fafafa;
+            border-left: 6px solid #7f7f84;
+            margin-bottom: 10px;
+            -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+        }
+        .notice-red {
+            padding: 10px;
+            font-size: 100%;
+            border-color: #FF0000;
+        }
+        .notice-red {
+            border-color: #FF0000;
+        }
+        .notice-red>strong {
+            font-size: 150%;
+            color: #FF0000;
+        }
+        .notice-amber {
+            padding: 10px;
+            font-size: 100%;
+            border-color: #FFBF00;
+        }
+        .notice-amber {
+            border-color: #FFBF00;
+        }
+        .notice-amber>strong {
+            font-size: 150%;
+            color: #FFBF00;
+        }
+        .notice-green {
+            padding: 10px;
+            font-size: 100%;
+            border-color: #00B300;
+        }
+        .notice-green {
+            border-color: #00B300;
+        }
+        .notice-green>strong {
+            font-size: 150%;
+            color: #00B300;
+        }
+    </style>
+</head>
+<body>
+<div id="billTemplate" type="text/x-handlebars-template">
+    {{#totalsChecker billingForecastTotal amountInvoiced}}
+        <div class="notice notice-amber">
+            The amount to be invoiced is less than what has been forecasted. Please go to the Billing Forecast tab and correct the forecast as necessary.
+        </div>
+    {{else}}
+        <div class="notice notice-red">
+            The amount to be invoiced is less than what has been forecasted. Please go to the Billing Forecast tab and correct the forecast as necessary.
+        </div>
+    {{/totalsChecker}}
+</div>
+</body>
+</html>

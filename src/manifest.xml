@@ -1,0 +1,29 @@
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>service_rocket_sb</projectname>
+  <frameworkversion>1.0</frameworkversion>
+  <dependencies>
+    <features>
+      <feature required="true">CLASSES</feature>
+      <feature required="true">SERVERSIDESCRIPTING</feature>
+      <feature required="true">WORKFLOW</feature>
+      <feature required="true">DEPARTMENTS</feature>
+      <feature required="true">ACCOUNTING</feature>
+      <feature required="false">CRM</feature>
+      <feature required="true">SUBSIDIARIES</feature>
+      <feature required="true">MULTICURRENCY</feature>
+      <feature required="false">CREATESUITEBUNDLES</feature>
+    </features>
+    <objects>
+      <object>custform_188_3688201_454</object>
+      <object>custform_60_3688201_132</object>
+      <object>custform_62_3688201_400</object>
+      <object>custform_49_3688201_375</object>
+      <object>custform_169_3688201_268</object>
+      <object>custform_190_3688201_823</object>
+      <object>custform_32_3688201_375</object>
+      <object>custform_61_3688201_185</object>
+      <object>custform_44_3688201_375</object>
+      <object>custbody_req_currency</object>
+    </objects>
+  </dependencies>
+</manifest>

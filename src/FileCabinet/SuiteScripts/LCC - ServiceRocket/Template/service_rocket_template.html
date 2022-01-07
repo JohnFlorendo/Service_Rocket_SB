@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <head>
+        <#setting number_format="#,##0.00">
+
+        <#assign font_notosans_regular = "https://3688201-sb1.app.netsuite.com/core/media/media.nl?id=56196&amp;c=3688201_SB1&amp;h=b2a4e0fb5dda941c4904&_xt=.ttf" />
+        <#assign font_notosans_bold = "https://3688201-sb1.app.netsuite.com/core/media/media.nl?id=56197&amp;c=3688201_SB1&amp;h=c6e08801d178ac829da1&_xt=.ttf" />
+
+        <link name="NotoSans" type="font" subtype="truetype" src="${font_notosans_regular?html}" src-bold="${font_notosans_bold?html}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale == "zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+        <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+        <#elseif .locale == "ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+        <#elseif .locale == "th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+    </#if>
+
+    <#assign payment_method = ''>
+
+    <#if record.currencysymbol == "NZD" >
+    <#assign payment_method = subsidiary.custrecord_sr_payment_inst_nzd />
+    <#elseif   record.currencysymbol == "MYR" >
+    <#assign payment_method =  subsidiary.custrecord_sr_payment_inst_myr />
+    <#elseif   record.currencysymbol == "GBP" >
+    <#assign payment_method = subsidiary.custrecord_sr_payment_inst_gbp />
+    <#elseif   record.currencysymbol == "AUD">
+    <#assign payment_method = subsidiary.custrecord_sr_payment_inst_aud />
+    <#else>
+    <#assign payment_method = subsidiary.custrecord_sr_payment_inst_usd />
+</#if>
+
+<macrolist>
+    <macro id="nlheader">
+        <!--HEADER-->
+        <table style="width:100%; background-color: #221F1F;">
+            <tr width="100%">
+                <td  width="50%" style="padding-left: 0.4in; padding-top: 10px; padding-bottom: 10px;"><img src="https://3688201-sb1.app.netsuite.com/core/media/media.nl?id=56195&amp;c=3688201_SB1&amp;h=bcb3c25d8307d6483c78&amp;fcts=20200513215522&amp;whence=" width="80px" height="57px"/></td>
+                <td  width="50%" style="padding-right: 0.4in; padding-top: 10px; padding-bottom: 10px; ;" >
+                    <table style="color: white; width: 100%; ">
+                        <tr>
+                            <td align="right" style="font-size : 24px; font-weight:500;" >
+                                Tax Invoice
+                            </td>
+                        </tr>
+                        <tr  style="padding-top: -10px;">
+                            <td align="right" style="font-size : 20px;">
+                                ${subsidiary.federalidnumber}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!--END HEADER-->
+    </macro>
+    <macro id="nlfooter">
+        <!--FOOTER-->
+        <table style="width:100%; margin-left: 0.4in; margin-right: 0.4in; ">
+            <tr width="100%" >
+                <td width="55%" style="vertical-align: bottom;">
+                    <table width="100%">
+                        <tr>
+                            <td class="summarybox" ></td>
+                        </tr>
+                        <tr>
+                            <td class="summaryboldbox" >${subsidiary.name} </td>
+                        </tr>
+                        <tr>
+                            <td class="paymentbox" >
+                                ${subsidiary.custrecord_sr_address}
+                            </td>
+                        </tr>
+                        <tr style="padding-top: 10px;">
+                            <td class="label">
+                                Need help? <br/>
+                                Email accounts@servicerocket.com <br/>
+                                #WeGotYourBack <br/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td width="45%" style="vertical-align: bottom;">
+                    <table width="100%">
+                        <tr>
+                            <td class="summaryboldbox" >Payment method </td>
+                        </tr>
+                        <tr>
+                            <td class="label" >Bank Transfer </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td style="font-size: 14px;">
+                                ${payment_method}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!--FOOTER-->
+    </macro>
+</macrolist>
+<style type="text/css">* {
+    <#if .locale == "zh_CN">
+    font-family: NotoSans, NotoSansCJKsc, sans-serif;
+    <#elseif .locale == "zh_TW">
+    font-family: NotoSans, NotoSansCJKtc, sans-serif;
+    <#elseif .locale == "ja_JP">
+    font-family: NotoSans, NotoSansCJKjp, sans-serif;
+    <#elseif .locale == "ko_KR">
+    font-family: NotoSans, NotoSansCJKkr, sans-serif;
+    <#elseif .locale == "th_TH">
+    font-family: NotoSans, NotoSansThai, sans-serif;
+    <#else>
+    font-family: NotoSans, Arial,sans-serif;
+    </#if>
+}
+
+body {
+    font-family: 'Arial';
+}
+
+table {
+    font-size: 9pt;
+    table-layout: fixed;
+    padding: 3px;
+}
+
+table.footer td {
+    padding: 0px;
+    font-size: 8pt;
+}
+table.body td {
+    padding-top: 2px;
+}
+table.total {
+    page-break-inside: avoid;
+}
+tr.totalrow {
+    background-color: #e3e3e3;
+    line-height: 200%;
+}
+td.totalboxtop {
+    font-size: 12pt;
+    background-color: #e3e3e3;
+}
+td.addressheader {
+    font-size: 8pt;
+    padding-top: 6px;
+    padding-bottom: 2px;
+}
+td.address {
+    padding-top: 0px;
+}
+td.totalboxmid {
+    font-size: 28pt;
+    padding-top: 20px;
+    background-color: #e3e3e3;
+}
+td.totalboxbot {
+    background-color: #e3e3e3;
+    font-weight: bold;
+}
+
+td.summarybox {
+    font-size: 14pt;
+    text-indent: 2px;
+}
+
+td.label {
+    font-weight: bold;
+    font-size: 12pt;
+    text-indent: 2px;
+}
+
+td.summaryboldbox {
+    font-weight: bold;
+    font-size: 14pt;
+    text-indent: 2px;
+}
+
+td.paymentbox {
+    font-size:10pt;
+    text-indent: 2px;
+}
+
+td.paymentboldbox {
+    font-weight: bold;
+    font-size: 10pt;
+    text-indent: 2px;
+}
+
+span.title {
+    font-size: 28pt;
+}
+span.number {
+    font-size: 16pt;
+}
+span.itemname {
+    font-weight: bold;
+    line-height: 150%;
+}
+hr {
+    width: 100%;
+    color: #d3d3d3;
+    background-color: #d3d3d3;
+    height: 1px;
+}
+</style>
+</head>
+<body header="nlheader" header-height="7%" footer="nlfooter" footer-height="20%" padding="0.in 0.0in 0.5in 0.0in" size="A4">
+
+<!--Account Infor-->
+<table style="width:100%; margin-left: 0.4in; margin-right: 0.4in; padding-top: 0.5in; ">
+    <tr style="width: 100%;">
+        <!--Attention-->
+        <td style="width: 55%;">
+            <table >
+                <tr>
+                    <td class="summarybox" > <strong>Attention To</strong> </td>
+                </tr>
+                <tr>
+                    <td class="summarybox">Accounts Payable</td>
+                </tr>
+            </table>
+            <hr style="width: 80%;" align="left"/>
+            <table>
+                <tr>
+                    <td class="summarybox">
+                        <span><strong>Bill To </strong>  </span>
+                        <br/>
+                        <br/>
+                        <span class="summarybox">${record.billaddress}</span>
+                    </td>
+                </tr>
+            </table>
+
+
+        </td>
+        <!--Summary-->
+        <td style="width:45%; background-color: #F5F5F5; font-size:24px; padding-left: 15px; padding-right: 15px;" >
+            <table>
+                <tr style="padding-top: 5px;">
+                    <td class="summaryboldbox"><strong>Summary</strong></td>
+                </tr>
+            </table>
+            <hr/>
+            <table width ="100%">
+                <tr>
+                    <td class="summaryboldbox"> <strong>Total Due</strong> </td>
+                    <td class="summaryboldbox" align="left">${record.total}</td>
+                </tr>
+                <tr>
+                    <td class="summarybox" >Due Date </td>
+                    <td class="summaryboldbox" align="left">${record.duedate}</td>
+                </tr>
+            </table>
+            <hr/>
+            <table  width ="100%">
+
+                <tr>
+                    <td class="summarybox" >Invoice </td>
+                    <td class="summaryboldbox" align="left">${record.tranid}</td>
+                </tr>
+                <tr>
+                    <td class="summarybox" >PO </td>
+                    <td  align="left" >
+                        <#if record.otherrefnum?length < 14>
+                        <p style="font-weight: bold; font-size: 14pt; text-indent: 2px;"> ${record.otherrefnum}</p>
+                        <#else>
+                        <p style="font-size: 11pt; font-weight: bold; white-space: nowrap"> ${record.otherrefnum}</p>
+                    </#if>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="summarybox" >Terms </td>
+                    <td class="summaryboldbox" align="left">${record.terms}</td>
+                </tr>
+                <tr>
+                    <td class="summarybox" >Currency </td>
+                    <td class="summaryboldbox" align="left" >${record.currencysymbol}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- End Account Infor-->
+<hr style="margin-left: 0.4in; margin-right: 0.4in; "/>
+<!--Details-->
+<p style="margin-left: 0.5in; font-weight: bold; font-size: 14pt;">Details</p>
+
+<#if record.item?has_content>
+<table style="width: 100%; margin-top: 10px; margin-left: 0.4in; margin-right: 0.4in; font-size: 11pt; border-collapse: collapse;">
+    <!-- start items -->
+
+    <#list record.item as item>
+    <#if item_index==0>
+    <tr style="background-color: #F5F5F5; color: #AAAAAA; font-weight: bold;">
+        <td width="5%">No.</td>
+        <td width="50%">Description</td>
+        <td align="right" width="5%">Qty</td>
+        <td align="right" width="13%">Amount</td>
+        <td align="right" width="12%">GST</td>
+        <td align="right" width="15%" style="white-space: nowrap">Gross Amount</td>
+    </tr>
+</#if>
+<#assign indnum = item_index+1/>
+<tr>
+    <td>${indnum?string["0"]}</td>
+    <td>${item.description}</td>
+    <td align="right">${item.quantity?string["0"]}</td>
+    <td align="right">${item.rate}</td>
+    <td align="right">${item.tax1amt}</td>
+    <td align="right">${item.amount}</td>
+</tr>
+</#list>
+<tr style="background-color: #F5F5F5; color: #AAAAAA; font-weight: bold; height: 3px;"><td></td></tr>
+</table>
+</#if>
+<table style="width:100%; margin-left: 0.4in; margin-right: 0.4in;">
+    <tr width="100%">
+        <td width="55%"></td>
+        <td width="45%">
+            <!---Sub Total-->
+            <table width="100%">
+                <tr>
+                    <td class="summarybox" >Subtotal </td>
+                    <td class="summaryboldbox" align="right">${record.subtotal}</td>
+                </tr>
+                <tr>
+                    <td class="summarybox" >GST </td>
+                    <td class="summaryboldbox" align="right">${record.taxtotal}</td>
+                </tr>
+            </table>
+            <hr/>
+            <table width="100%">
+                <tr>
+                    <td class="summaryboldbox" >Total Due </td>
+                    <td class="summaryboldbox" align="right">${record.total}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</pdf>

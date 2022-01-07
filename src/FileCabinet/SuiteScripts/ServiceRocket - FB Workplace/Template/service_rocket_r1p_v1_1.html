@@ -1,0 +1,169 @@
+<pdf>
+    <head>
+        <#setting number_format="#,##0.00">
+
+        <#assign font_notosans_regular = "https://3688201.app.netsuite.com/core/media/media.nl?id=85286&c=3688201&h=c63cd43255280bdc68ae&_xt=.ttf" />
+        <#assign font_notosans_bold = "https://3688201.app.netsuite.com/core/media/media.nl?id=85285&c=3688201&h=49220bfe252158cf597d&_xt=.ttf" />
+        <title>HTML Elements Reference</title>
+        <link name="NotoSans" type="font" subtype="truetype" src="${font_notosans_regular?html}" src-bold="${font_notosans_bold?html}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale == "zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+        <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+        <#elseif .locale == "ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+        <#elseif .locale == "th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+    </#if>
+        <style type="text/css">
+            * {
+                <#if .locale == "zh_CN">
+                font-family: NotoSans, NotoSansCJKsc, sans-serif;
+                <#elseif .locale == "zh_TW">
+                font-family: NotoSans, NotoSansCJKtc, sans-serif;
+                <#elseif .locale == "ja_JP">
+                font-family: NotoSans, NotoSansCJKjp, sans-serif;
+                <#elseif .locale == "ko_KR">
+                font-family: NotoSans, NotoSansCJKkr, sans-serif;
+                <#elseif .locale == "th_TH">
+                font-family: NotoSans, NotoSansThai, sans-serif;
+                <#else>
+                font-family: NotoSans, Arial,sans-serif;
+                </#if>
+            }
+
+
+            * {
+                font-family: sans-serif;
+            }
+            .column {
+                float: left;
+                width: 50%;
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+
+            .borders-style {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            th {
+                background: grey;
+            }
+
+            .table-size {
+                width: 80px;
+            }
+
+            .padding-text-align {
+                padding: 5px;
+                text-align: left;
+            }
+
+            .padding-text-align-right {
+                padding: 5px;
+                text-align: right;
+                font-size: 8px;
+            }
+
+            .center {
+                margin: auto;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body footer="nlfooter" footer-height="10%" header="nlheader" header-height="7%" padding="0in 0in 0.5in 0.0in"
+          size="A4">
+
+    <table style=" height: 40px; width:720px;padding-top: 10px; padding-left: 10px; font-family: NotoSans;">
+        <tr>
+            <td align="center"
+                height="65px"
+                style=" padding-top: 10px; padding-bottom: 10px; background-color: #221F1F; color: #ffffff;"
+                width="130px">
+                <img height="40px"
+                     src="https://3688201.app.netsuite.com/core/media/media.nl?id=82994&amp;c=3688201&amp;h=9b8cf3d48ba74b2ef704&amp;fcts=20200901004254&amp;whence="
+                     width="100px"/>
+            </td>
+            <td style="; padding-top: 10px; padding-bottom: 10px;" width="200px">
+                <table>
+                    <tr>
+                        <td align="left" style="font-size : 18px; font-weight:600; padding-left: 10px;">
+                            {user.name}'s<br/>
+                            <span style="font-size : 14px; font-weight:400;">{businessUnit} • {empDepartment} • {empJob}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!--    DATA TABLES-->
+    <table align="left" cellspacing="0"  style="padding-left: 10px; border-collapse: collapse; border-spacing: 0; font-family: NotoSans;">
+        <tr>
+            <td height="30px" > <!-- column 1 -->
+                <table style="width: 60px;">
+                    <tr style="width: 60px;">
+                        <td style="font-size: 22px; font-weight: 600;">{ytd}</td>
+                        <td style="font-size: 18px; ">{dtGeneratedMonth}</td>
+                    </tr>
+                    <tr>
+                        <td align="Left" style="font-size: 60px; line-height: 30; padding-right: 10px;"><strong>W{weeknumber}</strong></td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="font-size: 12px; line-height: 10; padding-right: -0.5in">{firstDayOfWeekText}&nbsp;-&nbsp;{lastDayOfWeekText}</td>
+                    </tr>
+                </table>
+            </td>
+            <td style="padding-right: -20px"> <!-- column 2-->
+                <h2>YOUR W{weeknumber1}</h2>
+                <table width="568px">
+                    {PDFValues}
+
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <!--    DATA TABLES-->
+    <!--FOOTER-->
+    <table style=" height: 30px; width:720px; padding-left: 10px; font-family: NotoSans;">
+        <tr>
+            <td align="center"
+                height="65px"
+                style=" padding-top: 10px; padding-bottom: 10px; background-color: #221F1F; color: #ffffff;"
+                width="130px">
+                <img src="https://3688201.app.netsuite.com/core/media/media.nl?id=63646&amp;c=3688201&amp;h=cc450deee8b4151f2fd5&amp;fcts=20200601062629&amp;whence=" width="80px" height="57px"/>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td align="center" style="padding-right: 100px; padding-bottom: 20px; font-size: 8px;">
+                <br/>
+                <br/>Got ideas? let us know at: <br/>
+                https://rocketeers.atlassian.net/servicedesk/customer/portal/12
+            </td>
+            <td align="center" style="padding-right: 100px; ; padding-bottom: 20px;  font-size: 8px"><br/><br/>R1P version 1.9.1<br/>
+                This report was generated on<br/>
+                {dtGeneratedDate} at {dtGenerateTime} GST
+            </td>
+        </tr>
+    </table>
+
+    <!--FOOTER-->
+
+    </body>
+</pdf>
