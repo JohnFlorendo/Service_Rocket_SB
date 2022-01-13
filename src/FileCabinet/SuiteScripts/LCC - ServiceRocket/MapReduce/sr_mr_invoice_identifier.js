@@ -362,7 +362,7 @@ define(['N/runtime', 'N/search', 'N/record'],
                             "AND",
                             ["transaction.type", "anyof", "SalesOrd"],
                             "AND",
-                            ["transaction.applyingtransaction","noneof","@NONE@"]
+                            ["transaction.applyingtransaction", "noneof", "@NONE@"]
                         ],
                     columns:
                         [

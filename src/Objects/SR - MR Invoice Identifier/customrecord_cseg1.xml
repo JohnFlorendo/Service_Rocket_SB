@@ -1,0 +1,80 @@
+<customrecordtype scriptid="customrecord_cseg1">
+  <allowattachments>F</allowattachments>
+  <allowinlinedeleting>F</allowinlinedeleting>
+  <allowinlinedetaching>F</allowinlinedetaching>
+  <allowinlineediting>F</allowinlineediting>
+  <allowquickadd>F</allowquickadd>
+  <allowquicksearch>F</allowquicksearch>
+  <customsegment>[type=customsegment, scriptid=cseg1]</customsegment>
+  <enabledle>F</enabledle>
+  <enablekeywords>F</enablekeywords>
+  <enablemailmerge>F</enablemailmerge>
+  <enableoptimisticlocking>F</enableoptimisticlocking>
+  <enablesystemnotes>T</enablesystemnotes>
+  <icon></icon>
+  <iconbuiltin>T</iconbuiltin>
+  <iconindex></iconindex>
+  <includeinsearchmenu>F</includeinsearchmenu>
+  <showcreationdate>F</showcreationdate>
+  <showcreationdateonlist>F</showcreationdateonlist>
+  <showlastmodified>F</showlastmodified>
+  <showlastmodifiedonlist>F</showlastmodifiedonlist>
+  <shownotes>T</shownotes>
+  <showowner>F</showowner>
+  <showownerallowchange>F</showownerallowchange>
+  <showowneronlist>F</showowneronlist>
+  <instances>
+    <instance scriptid="val_14482911_3688201_sb1_185">
+      <isinactive>F</isinactive>
+      <name>Apps</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482912_3688201_sb1_390">
+      <isinactive>F</isinactive>
+      <name>Blue</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482913_3688201_sb1_368">
+      <isinactive>F</isinactive>
+      <name>Corporate</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482914_3688201_sb1_452">
+      <isinactive>F</isinactive>
+      <name>Learndot</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482915_3688201_sb1_510">
+      <isinactive>F</isinactive>
+      <name>Managed Services</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482916_3688201_sb1_430">
+      <isinactive>F</isinactive>
+      <name>Professional Services</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482917_3688201_sb1_178">
+      <isinactive>F</isinactive>
+      <name>Resell</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482918_3688201_sb1_859">
+      <isinactive>F</isinactive>
+      <name>To be Allocated</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_14482921_3688201_sb1_564">
+      <isinactive>F</isinactive>
+      <name>Class CS.A</name>
+      <parent></parent>
+    </instance>
+  </instances>
+  <links>
+    <link>
+      <linkcategory>BASICSETUPCOMPANY</linkcategory>
+      <linklabel></linklabel>
+      <linktasktype>LIST</linktasktype>
+    </link>
+  </links>
+</customrecordtype>
