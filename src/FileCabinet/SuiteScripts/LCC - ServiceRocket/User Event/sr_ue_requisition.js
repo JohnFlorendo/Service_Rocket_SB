@@ -8,6 +8,7 @@ define(['N/record', 'N/search', 'N/url', 'N/ui/message', 'N/ui/serverWidget', 'N
         var currentUser = runtime.getCurrentUser();
 
         function beforeLoad(context) {
+            var newRecord = context.newRecord;
             checkingFieldGroupForFinance(context);
 
             var searchid = currentScript.getParameter({name: 'custscript_param_editable_tranid_access'});
@@ -19,6 +20,53 @@ define(['N/record', 'N/search', 'N/url', 'N/ui/message', 'N/ui/serverWidget', 'N
             if (hasEditableAccess) {
                 var fieldTranId = form.getField({id: 'tranid'});
                 fieldTranId.updateDisplayType({displayType: serverWidget.FieldDisplayType.NORMAL});
+            }
+
+            var objSublist = form.getSublist({
+                id: 'item'
+            });
+
+            // if (context.type === context.UserEventType.CREATE || context.type === context.UserEventType.EDIT) {
+            //     var objFieldGSTCode = fieldGSTCode(objSublist);
+            //     objFieldGSTCode.updateDisplayType({
+            //         displayType: serverWidget.FieldDisplayType.HIDDEN
+            //     });
+            //     customizeGSTCodeLineField(objSublist, newRecord, form);
+            // }
+            if (context.type === context.UserEventType.VIEW) {
+                var objFieldGSTCode = fieldGSTCode(objSublist);
+                objFieldGSTCode.updateDisplayType({
+                    displayType: serverWidget.FieldDisplayType.NORMAL
+                });
+            } else {
+                var objFieldGSTCode = fieldGSTCode(objSublist);
+                objFieldGSTCode.updateDisplayType({
+                    displayType: serverWidget.FieldDisplayType.HIDDEN
+                });
+                customizeGSTCodeLineField(objSublist, newRecord, form);
+            }
+        }
+
+        function beforeSubmit(context) {
+            var newRecord = context.newRecord;
+
+            var inLine = newRecord.getLineCount({
+                sublistId: 'item'
+            });
+
+            for (var indx = 0; indx < inLine; indx++) {
+                var inCustomGSTCode = newRecord.getSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custpage_gst_code',
+                    line: indx
+                });
+
+                newRecord.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_gst_taxcode',
+                    line: indx,
+                    value: inCustomGSTCode
+                });
             }
         }
 
@@ -124,8 +172,8 @@ define(['N/record', 'N/search', 'N/url', 'N/ui/message', 'N/ui/serverWidget', 'N
 
             var stStatus = 'Pending Order (Pending Procurement Review)';
 
-            if(inStatus == 'Pending Order'){
-                if(inApprovalStatus == Approved){
+            if (inStatus == 'Pending Order') {
+                if (inApprovalStatus == Approved) {
                     if ((!isSpendScheduleUpdated && !isDataCheckCompletedAndProceedToPo) || (isSpendScheduleUpdated && !isDataCheckCompletedAndProceedToPo) || (!isSpendScheduleUpdated && isDataCheckCompletedAndProceedToPo)) {
                         var stTitleLabel = '<script>'
                         stTitleLabel += 'var stStatusLabel = document.getElementsByClassName(\'uir-record-status\');' +
@@ -142,6 +190,98 @@ define(['N/record', 'N/search', 'N/url', 'N/ui/message', 'N/ui/serverWidget', 'N
             }
         }
 
-        return {beforeLoad: beforeLoad, afterSubmit: afterSubmit};
+        function customizeGSTCodeLineField(objSublist, newRecord, form) {
+            var inSubsidiary = newRecord.getValue({
+                fieldId: 'subsidiary'
+            });
+            var arrTaxCodes = searchTaxCodes(inSubsidiary);
+
+            var fldGSTCode = objSublist.addField({
+                id: 'custpage_gst_code',
+                type: serverWidget.FieldType.SELECT,
+                label: 'GST Code'
+            });
+
+            // form.insertField({
+            //     field: fldGSTCode,
+            //     nextfield: 'estimatedamount'
+            // });
+
+            var objField = objSublist.getField({
+                id: 'custpage_gst_code'
+            });
+
+            objField.addSelectOption({
+                value: '',
+                text: ''
+            });
+            for (var indx = 0; indx < arrTaxCodes.length; indx++) {
+                var objTaxCodes = arrTaxCodes[indx];
+
+                if (objTaxCodes) {
+                    objField.addSelectOption({
+                        value: objTaxCodes.inInternalId,
+                        text: objTaxCodes.stName
+                    });
+                }
+            }
+        }
+
+        function fieldGSTCode(objSublist) {
+            var objFieldGSTCode = objSublist.getField({
+                id: 'custcol_gst_taxcode'
+            });
+
+            return objFieldGSTCode;
+        }
+
+        function searchTaxCodes(inSubsidiary) {
+            var objTaxCodes = {};
+            var arrTaxCodes = [];
+
+            var objSearchTaxCodes = search.create({
+                type: "salestaxitem",
+                filters:
+                    [
+                        ["isinactive", "is", "F"],
+                        "AND",
+                        ["subsidiary", "anyof", inSubsidiary]
+                    ],
+                columns:
+                    [
+                        search.createColumn({
+                            name: "internalid",
+                            sort: search.Sort.ASC,
+                            label: "Internal ID"
+                        }),
+                        search.createColumn({name: "name", label: "Name"})
+                    ]
+            });
+            objSearchTaxCodes.run().each(function (result) {
+                var inInternalId = result.getValue({
+                    name: 'internalid'
+                });
+                var stName = result.getValue({
+                    name: 'name'
+                });
+
+                objTaxCodes = {
+                    inInternalId: inInternalId,
+                    stName: stName
+                }
+
+                arrTaxCodes.push(objTaxCodes);
+
+                return true;
+            });
+
+            return arrTaxCodes;
+        }
+
+        return {
+            beforeLoad: beforeLoad,
+            // beforeSubmit: beforeSubmit,
+            afterSubmit: afterSubmit
+        };
 
     });

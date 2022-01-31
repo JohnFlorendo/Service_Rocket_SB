@@ -44,7 +44,7 @@
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>
-      <status>SCHEDULED</status>
+      <status>TESTING</status>
       <title>SR - MR Invoice Identifier</title>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>

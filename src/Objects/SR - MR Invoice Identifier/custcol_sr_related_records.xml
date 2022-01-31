@@ -38,7 +38,7 @@
   <displaywidth></displaywidth>
   <dynamicdefault></dynamicdefault>
   <encryptatrest>F</encryptatrest>
-  <fieldtype>TEXT</fieldtype>
+  <fieldtype>SELECT</fieldtype>
   <help></help>
   <isformula>F</isformula>
   <ismandatory>F</ismandatory>
@@ -47,9 +47,9 @@
   <maxlength></maxlength>
   <maxvalue></maxvalue>
   <minvalue></minvalue>
-  <onparentdelete></onparentdelete>
+  <onparentdelete>SET_NULL</onparentdelete>
   <searchlevel>2</searchlevel>
-  <selectrecordtype></selectrecordtype>
+  <selectrecordtype>-30</selectrecordtype>
   <showhierarchy>F</showhierarchy>
   <sourcefilterby></sourcefilterby>
   <sourcefrom></sourcefrom>

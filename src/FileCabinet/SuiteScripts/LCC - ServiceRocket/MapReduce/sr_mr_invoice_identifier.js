@@ -2,6 +2,14 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
+
+/*
+Purpose             : To
+Created On          :
+Author              : Ceana Technology
+Saved Searches      : customsearch_sr_invoice_identifier
+*/
+
 define(['N/runtime', 'N/search', 'N/record'],
     /**
      * @param{runtime} runtime
@@ -64,8 +72,8 @@ define(['N/runtime', 'N/search', 'N/record'],
             try {
                 var objJournal = JSON.parse(mapContext.value);
 
-                var inAppliedToTransaction = objJournal.inAppliedToTransaction;
                 var inInternalID = objJournal.inInternalID;
+                var inAppliedToTransaction = objJournal.inAppliedToTransaction;
                 log.debug('objJournal', 'inAppliedToTransaction: ' + inAppliedToTransaction + ' - inInternalID: ' + inInternalID);
 
                 var arrRevRecPlan = searchRevenueRecognitionPlan(inInternalID);
@@ -96,18 +104,13 @@ define(['N/runtime', 'N/search', 'N/record'],
                 {
                     sublistID: 'revenueelement',
                     fieldID: 'customer'
-                },
-                {
-                    sublistID: 'revenueelement',
-                    fieldID: 'source'
                 }
             ]
 
             objFields.lineFieldID = {
                 stRevenueElement: 'revenueelement_display',
                 stSource: 'referenceid',
-                stCustomer: 'customer',
-                stSourceField: 'source'
+                stCustomer: 'customer'
             }
 
             return objFields;
@@ -227,15 +230,12 @@ define(['N/runtime', 'N/search', 'N/record'],
                             var stSource = objLineFields;
                         } else if (fields.fieldID == objFields.lineFieldID.stCustomer) {
                             var inCustomer = objLineFields;
-                        } else if (fields.fieldID == objFields.lineFieldID.stSourceField) {
-                            var stSourceField = objLineFields;
                         }
 
                         objRevArrangement = {
                             inRevenueElement: inRevenueElement,
                             stSource: stSource,
-                            inCustomer: inCustomer,
-                            stSourceField: stSourceField
+                            inCustomer: inCustomer
                         }
                     }
 
@@ -251,10 +251,6 @@ define(['N/runtime', 'N/search', 'N/record'],
         function journalEntryRecord(inJournalEntryID, arrRevArrangement) {
             var stRelatedRecord = '';
             var recJournalEntry = recordJournalEntry(inJournalEntryID);
-            recJournalEntry.setValue({
-                fieldId: 'custbody_setting_related_record',
-                value: true
-            });
 
             var inLine = recJournalEntry.getLineCount({
                 sublistId: 'line'
@@ -269,23 +265,22 @@ define(['N/runtime', 'N/search', 'N/record'],
                     if (inRevElementID == arrRevArrangement[arrIndx].inRevenueElement) {
                         var stSourceType = arrRevArrangement[arrIndx].stSource.split('_')[0];
                         var inSourceID = arrRevArrangement[arrIndx].stSource.split('_')[1];
-                        var stSourceField = arrRevArrangement[arrIndx].stSourceField;
                         var inCustomer = arrRevArrangement[arrIndx].inCustomer;
 
                         if (stSourceType == 'SalesOrd') {
                             var objInvoice = searchInvoiceRecord(inSourceID);
-                            stRelatedRecord = 'Invoice #' + objInvoice.inTranID;
+                            stRelatedRecord = objInvoice.inInternalID;
                         } else if (stSourceType == 'CustInvc') {
-                            stRelatedRecord = stSourceField;
+                            stRelatedRecord = inSourceID;
                         } else if (stSourceType == 'RtnAuth') {
-                            stRelatedRecord = stSourceField;
+                            stRelatedRecord = inSourceID;
                         } else if (stSourceType == 'CustCred') {
-                            stRelatedRecord = stSourceField;
+                            stRelatedRecord = inSourceID;
                         } else {
                             var objProject = searchProjectRecord(inCustomer);
                             log.debug('objProject.inApplyingTransaction', objProject.inApplyingTransaction);
-                            var inTranID = invoiceRecord(objProject.inApplyingTransaction);
-                            stRelatedRecord = 'Invoice #' + inTranID;
+                            var objInvoice = invoiceRecord(objProject.inApplyingTransaction);
+                            stRelatedRecord = objInvoice.inInternalID;
                         }
 
                         recJournalEntry.selectLine({
@@ -375,6 +370,7 @@ define(['N/runtime', 'N/search', 'N/record'],
                                 name: "applyingtransaction",
                                 join: "transaction",
                                 summary: "GROUP",
+                                sort: search.Sort.ASC,
                                 label: "Applying Transaction"
                             }),
                             search.createColumn({
@@ -391,6 +387,12 @@ define(['N/runtime', 'N/search', 'N/record'],
                         join: "transaction",
                         summary: "GROUP",
                     });
+                    var stApplyingTransaction = result.getText({
+                        name: "applyingtransaction",
+                        join: "transaction",
+                        summary: "GROUP",
+                    });
+                    log.debug('inApplyingTransaction', inApplyingTransaction + ' : ' + stApplyingTransaction);
 
                     objProject.inApplyingTransaction = inApplyingTransaction;
                     return true;
@@ -409,11 +411,13 @@ define(['N/runtime', 'N/search', 'N/record'],
                 isDynamic: true,
             });
 
-            var inTrandID = recInvoice.getValue({
-                fieldId: 'tranid'
+            var inInternalID = recInvoice.getValue({
+                fieldId: 'id'
             });
 
-            return inTrandID;
+            return {
+                inInternalID: inInternalID
+            };
         }
 
         const reduce = (reduceContext) => {

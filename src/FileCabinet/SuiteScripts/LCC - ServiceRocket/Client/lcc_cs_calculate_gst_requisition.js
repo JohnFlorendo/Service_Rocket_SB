@@ -19,10 +19,11 @@ define(['N/search'], function (search) {
     function fieldChanged(context) {
         var currentRecord = context.currentRecord;
         if (context.sublistId == 'item') {
-            if (context.fieldId == 'custcol_gst_taxcode') {
-                var intGSTCode = currentRecord.getCurrentSublistValue('item', 'custcol_gst_taxcode');
+            if (context.fieldId == 'custpage_gst_code') {
+                var intGSTCode = currentRecord.getCurrentSublistValue('item', 'custpage_gst_code');
                 var stRate = parseFloat(getTaxCodeRate(intGSTCode)) || parseFloat(getTaxGroupRate(intGSTCode)) || 0;
                 currentRecord.setCurrentSublistValue('item', 'custcol_gst', stRate);
+                currentRecord.setCurrentSublistValue('item', 'custcol_gst_taxcode', intGSTCode);
             }
 
             if (context.fieldId == 'custcol_gst' || context.fieldId == 'estimatedrate' || context.fieldId == 'quantity') {
@@ -83,12 +84,7 @@ define(['N/search'], function (search) {
         return flTaxGroup;
     }
 
-    function lineInit(scriptContext) {
-
-    }
-
     return {
-        fieldChanged: fieldChanged,
-        lineInit: lineInit
+        fieldChanged: fieldChanged
     };
 });
