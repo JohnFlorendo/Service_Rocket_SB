@@ -1,4 +1,4 @@
-<transactioncolumncustomfield scriptid="custcol_sr_revenue_element">
+<transactioncolumncustomfield scriptid="custcol_sr_rev_rec_plan">
   <accesslevel>2</accesslevel>
   <applyformatting>F</applyformatting>
   <colexpense>F</colexpense>
@@ -42,14 +42,14 @@
   <help></help>
   <isformula>F</isformula>
   <ismandatory>F</ismandatory>
-  <label>Revenue Element</label>
+  <label>CF Rev Rec Plan</label>
   <linktext></linktext>
   <maxlength></maxlength>
   <maxvalue></maxvalue>
   <minvalue></minvalue>
   <onparentdelete>NO_ACTION</onparentdelete>
   <searchlevel>2</searchlevel>
-  <selectrecordtype>-336</selectrecordtype>
+  <selectrecordtype>-347</selectrecordtype>
   <showhierarchy>F</showhierarchy>
   <sourcefilterby></sourcefilterby>
   <sourcefrom></sourcefrom>

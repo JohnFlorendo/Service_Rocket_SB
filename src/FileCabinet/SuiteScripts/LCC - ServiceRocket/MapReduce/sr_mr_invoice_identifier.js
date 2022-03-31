@@ -139,7 +139,13 @@ define(['N/runtime', 'N/search', 'N/record'],
                     columns:
                         [
                             search.createColumn({name: "recordnumber", label: "Number"}),
-                            search.createColumn({name: "createdfrom", label: "Created From"})
+                            search.createColumn({name: "createdfrom", label: "Created From"}),
+                            search.createColumn({name: "internalid", label: "Internal ID"}),
+                            search.createColumn({
+                                name: "internalid",
+                                join: "revenueElement",
+                                label: "Internal ID"
+                            })
                         ]
                 });
                 searchObjRevenuePlan.run().each(function (result) {
@@ -149,9 +155,19 @@ define(['N/runtime', 'N/search', 'N/record'],
                     var inCreatedFrom = result.getValue({
                         name: 'createdfrom'
                     });
+                    var inInternalId = result.getValue({
+                        name: 'internalid'
+                    });
+                    var inRevElementInternalId = result.getValue({
+                        name: 'internalid',
+                        join: 'revenueElement'
+                    });
+
                     objRevRecPlan = {
                         inNumber: inNumber,
-                        inCreatedFrom: inCreatedFrom
+                        inCreatedFrom: inCreatedFrom,
+                        inInternalId: inInternalId,
+                        inRevElementInternalId: inRevElementInternalId
                     }
 
                     arrRevRecPlan.push(objRevRecPlan);
@@ -185,8 +201,20 @@ define(['N/runtime', 'N/search', 'N/record'],
                         });
                         recJournalEntry.setCurrentSublistValue({
                             sublistId: 'line',
-                            fieldId: 'custcol_sr_revenue_element',
+                            fieldId: 'custcol_sr_revenue_element_text',
                             value: arrRevRecPlan[arrIndx].inCreatedFrom,
+                            ignoreFieldChange: true
+                        });
+                        recJournalEntry.setCurrentSublistValue({
+                            sublistId: 'line',
+                            fieldId: 'custcol_sr_revenue_element',
+                            value: arrRevRecPlan[arrIndx].inRevElementInternalId,
+                            ignoreFieldChange: true
+                        });
+                        recJournalEntry.setCurrentSublistValue({
+                            sublistId: 'line',
+                            fieldId: 'custcol_sr_rev_rec_plan',
+                            value: arrRevRecPlan[arrIndx].inInternalId,
                             ignoreFieldChange: true
                         });
                         recJournalEntry.commitLine({
@@ -256,7 +284,7 @@ define(['N/runtime', 'N/search', 'N/record'],
                 sublistId: 'line'
             });
             for (var indx = 0; indx < inLine; indx++) {
-                var inRevElementID = recJournalEntry.getSublistValue({
+                var inRevElementID = recJournalEntry.getSublistText({
                     sublistId: 'line',
                     fieldId: 'custcol_sr_revenue_element',
                     line: indx
@@ -405,19 +433,21 @@ define(['N/runtime', 'N/search', 'N/record'],
         }
 
         function invoiceRecord(inInvoiceID) {
-            var recInvoice = record.load({
-                type: record.Type.INVOICE,
-                id: inInvoiceID,
-                isDynamic: true,
-            });
+            if (inInvoiceID) {
+                var recInvoice = record.load({
+                    type: record.Type.INVOICE,
+                    id: inInvoiceID,
+                    isDynamic: true,
+                });
 
-            var inInternalID = recInvoice.getValue({
-                fieldId: 'id'
-            });
+                var inInternalID = recInvoice.getValue({
+                    fieldId: 'id'
+                });
 
-            return {
-                inInternalID: inInternalID
-            };
+                return {
+                    inInternalID: inInternalID
+                };
+            }
         }
 
         const reduce = (reduceContext) => {
